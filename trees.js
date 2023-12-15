@@ -1,8 +1,10 @@
 import node from "./nodes.js";
 
 export default function tree(array) {
+  // Remove duplicates?
+  const dupeless = [...new Set(array)];
   // Sort data
-  array.sort((a, b) => {
+  dupeless.sort((a, b) => {
     if (a < b) {
       return -1;
     } else if (a > b) {
@@ -11,8 +13,6 @@ export default function tree(array) {
     // a must be equal to b
     return 0;
   });
-  const parsed = [...new Set(array)];
-  // Remove duplicates?
 
   const buildTree = (arr) => {
     const start = 0;
@@ -24,31 +24,48 @@ export default function tree(array) {
 
     const mid = Math.floor((start + end) / 2);
 
-    const newNode = node();
-    newNode.data = arr[mid];
+    const newNode = node(arr[mid]);
     newNode.left = buildTree(arr.slice(start, mid));
     newNode.right = buildTree(arr.slice(mid + 1, end));
 
     return newNode;
   };
 
-  let root = buildTree(parsed);
-  return root;
-}
+  let root = buildTree(dupeless);
 
-const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-//console.log(tree(data));
+  function insert(value) {
+    console.log("Inserting value", value, ".");
+    let currentNode = root;
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
+    let next = currentNode;
+
+    while (next) {
+      if (value < currentNode.data) {
+        // If value to insert is less than the current node's, see left
+        next = currentNode.left;
+      } else if (value > currentNode.data) {
+        // If value to insert is more than current node's, see right.
+        next = currentNode.right;
+      } else if (value === currentNode.data) {
+        console.log("Value already in tree.");
+        return;
+      }
+      if (next) {
+        // If there is a next node, move there and keep going
+        currentNode = next;
+      }
+    }
+    let newNode = node(value);
+
+    if (value < currentNode.data) {
+      currentNode.left = newNode;
+    } else {
+      currentNode.right = newNode;
+    }
+  }
+
+  function del(value) {
     return;
   }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-prettyPrint(tree(data));
+  return { root, insert, del };
+}
