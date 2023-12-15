@@ -60,7 +60,7 @@ export default function tree(array) {
     }
   }
 
-  function insertRecursive(value, currentNode) {
+  function insertRecursive(value, currentNode = root) {
     if (value === currentNode.data) {
       console.log("Value already in tree.");
       return;
@@ -75,7 +75,7 @@ export default function tree(array) {
     return;
   }
 
-  function del(value) {
+  function del(value, currentNode) {
     return;
   }
   return { root, insert, insertRecursive, del };
