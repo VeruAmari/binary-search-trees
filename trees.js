@@ -38,18 +38,14 @@ export default function tree(array) {
     let currentNode = root;
 
     let next = currentNode;
-
+    let check;
     while (next) {
-      if (value < currentNode.data) {
-        // If value to insert is less than the current node's, see left
-        next = currentNode.left;
-      } else if (value > currentNode.data) {
-        // If value to insert is more than current node's, see right.
-        next = currentNode.right;
-      } else if (value === currentNode.data) {
+      check = value < currentNode.data ? "left" : "right";
+      if (value === currentNode.data) {
         console.log("Value already in tree.");
         return;
       }
+      next = currentNode[check];
       if (next) {
         // If there is a next node, move there and keep going
         currentNode = next;
@@ -64,8 +60,23 @@ export default function tree(array) {
     }
   }
 
+  function insertRecursive(value, currentNode) {
+    if (value === currentNode.data) {
+      console.log("Value already in tree.");
+      return;
+    }
+    let check = value < currentNode.data ? "left" : "right";
+
+    if (!currentNode[check]) {
+      currentNode[check] = node(value);
+      return;
+    }
+    insertRecursive(value, currentNode[check]);
+    return;
+  }
+
   function del(value) {
     return;
   }
-  return { root, insert, del };
+  return { root, insert, insertRecursive, del };
 }
