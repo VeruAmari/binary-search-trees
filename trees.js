@@ -61,21 +61,40 @@ export default function tree(array) {
   }
 
   function insertRecursive(value, currentNode = root) {
+    // Check for existance of value in tree
     if (value === currentNode.data) {
       console.log("Value already in tree.");
       return;
     }
-    let check = value < currentNode.data ? "left" : "right";
+    // Determine where to look next
+    const check = value < currentNode.data ? "left" : "right";
 
+    // Base case
     if (!currentNode[check]) {
       currentNode[check] = node(value);
       return;
     }
+    // Check next child recursively
     insertRecursive(value, currentNode[check]);
     return;
   }
 
-  function del(value, currentNode) {
+  function del(value, currentNode = root) {
+    const check = value < currentNode.data ? "left" : "right";
+
+    // Base cases
+    if (!currentNode[check]) {
+      console.log("Value not found.");
+      return;
+    }
+    if (currentNode[check].data === value) {
+      console.log("Value found at ", currentNode[check], "deleting.");
+      if (!currentNode[check].left && !currentNode[check].right) {
+        currentNode[check] = null;
+      }
+      return;
+    }
+    del(value, currentNode[check]);
     return;
   }
   return { root, insert, insertRecursive, del };

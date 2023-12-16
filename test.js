@@ -8,3 +8,7 @@ const myTree = tree(data);
 myTree.insertRecursive(6);
 
 prettyPrint(myTree.root);
+
+myTree.del(6);
+
+prettyPrint(myTree.root);
