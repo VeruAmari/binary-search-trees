@@ -12,3 +12,5 @@ prettyPrint(myTree.root);
 myTree.del(4);
 
 prettyPrint(myTree.root);
+
+myTree.find(6);

@@ -113,11 +113,15 @@ export default function tree(array) {
         }
         if (!cursor.left.right) {
           // If there is no right sub-tree
+          // Replace the value with the next closest match
           currentNode[next].data = cursor.left.data;
-          cursor.left = cursor.left.left;
+          // Remove the node containing the match
+          cursor.left = null;
         } else {
           // If there is a right sub-tree
+          // Replace the value with the next closest match
           currentNode[next].data = cursor.left.data;
+          // Remove the node containing the match and have the previous node point to the right sub-tree instead
           cursor.left = cursor.left.right;
         }
         return;
@@ -125,5 +129,19 @@ export default function tree(array) {
     }
     del(value, currentNode[next]);
   }
-  return { root, insert, insertRecursive, del };
+
+  function find(value, currentNode = root) {
+    const next = value < currentNode.data ? "left" : "right";
+
+    if (!currentNode[next]) {
+      console.log("Value", value, "not found in tree.");
+      return null;
+    }
+    if (currentNode[next].data === value) {
+      console.log("Value", value, "found at", currentNode[next]);
+      return currentNode[next];
+    }
+    return find(value, currentNode[next]);
+  }
+  return { root, insert, insertRecursive, del, find };
 }
