@@ -9,6 +9,6 @@ myTree.insertRecursive(6);
 
 prettyPrint(myTree.root);
 
-myTree.del(6);
+myTree.del(4);
 
 prettyPrint(myTree.root);

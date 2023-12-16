@@ -80,22 +80,50 @@ export default function tree(array) {
   }
 
   function del(value, currentNode = root) {
-    const check = value < currentNode.data ? "left" : "right";
+    const next = value < currentNode.data ? "left" : "right";
 
     // Base cases
-    if (!currentNode[check]) {
+    if (!currentNode[next]) {
       console.log("Value not found.");
       return;
     }
-    if (currentNode[check].data === value) {
-      console.log("Value found at ", currentNode[check], "deleting.");
-      if (!currentNode[check].left && !currentNode[check].right) {
-        currentNode[check] = null;
+    if (currentNode[next].data === value) {
+      console.log("Value found at ", currentNode[next], "deleting.");
+      if (!currentNode[next].left && !currentNode[next].right) {
+        // Handle no child nodes
+        currentNode[next] = null;
+        return;
       }
-      return;
+      if (
+        (currentNode[next].left && !currentNode[next].right) ||
+        (!currentNode[next].left && currentNode[next].right)
+      ) {
+        // Handle one child node
+        currentNode[next] = currentNode[next].left
+          ? currentNode[next].left
+          : currentNode[next].right;
+        return;
+      } else {
+        // Handle two child nodes
+        let cursor = currentNode[next].right;
+        // Point to current node's right sub-tree
+        while (cursor.left.left) {
+          // Start traversing down left, side
+          cursor = cursor.left;
+        }
+        if (!cursor.left.right) {
+          // If there is no right sub-tree
+          currentNode[next].data = cursor.left.data;
+          cursor.left = cursor.left.left;
+        } else {
+          // If there is a right sub-tree
+          currentNode[next].data = cursor.left.data;
+          cursor.left = cursor.left.right;
+        }
+        return;
+      }
     }
-    del(value, currentNode[check]);
-    return;
+    del(value, currentNode[next]);
   }
   return { root, insert, insertRecursive, del };
 }
