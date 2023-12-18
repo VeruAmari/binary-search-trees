@@ -131,6 +131,10 @@ export default function tree(array) {
   }
 
   function find(value, currentNode = root) {
+    if (value === currentNode.data) {
+      console.log("Value", value, "found at root", currentNode);
+      return currentNode;
+    }
     const next = value < currentNode.data ? "left" : "right";
 
     if (!currentNode[next]) {
@@ -143,5 +147,32 @@ export default function tree(array) {
     }
     return find(value, currentNode[next]);
   }
-  return { root, insert, insertRecursive, del, find };
+
+  function levelOrder(func) {
+    const queue = [];
+
+    function traverse(node) {
+      if (!node) {
+        return;
+      }
+      queue.push(node);
+
+      if (node.left) {
+        traverse(node.left);
+      }
+      if (node.right) {
+        traverse(node.right);
+      }
+    }
+
+    traverse(root);
+    if (func) {
+      queue.forEach((arg) => {
+        func(arg);
+      });
+    } else {
+      return queue;
+    }
+  }
+  return { root, insert, insertRecursive, del, find, levelOrder };
 }

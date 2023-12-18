@@ -5,12 +5,14 @@ const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 //console.log(tree(data));
 const myTree = tree(data);
 
-myTree.insertRecursive(6);
+//myTree.insertRecursive(6);
 
 prettyPrint(myTree.root);
 
-myTree.del(4);
+//myTree.del(4);
 
-prettyPrint(myTree.root);
+//prettyPrint(myTree.root);
 
-myTree.find(6);
+//myTree.find(6);
+
+console.log(myTree.levelOrder());
