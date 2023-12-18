@@ -13,7 +13,6 @@ export default function tree(array) {
     // a must be equal to b
     return 0;
   });
-
   const buildTree = (arr) => {
     const start = 0;
     const end = arr.length;
@@ -30,7 +29,6 @@ export default function tree(array) {
 
     return newNode;
   };
-
   let root = buildTree(dupeless);
 
   function insert(value) {
@@ -59,7 +57,6 @@ export default function tree(array) {
       currentNode.right = newNode;
     }
   }
-
   function insertRecursive(value, currentNode = root) {
     // Check for existance of value in tree
     if (value === currentNode.data) {
@@ -147,13 +144,10 @@ export default function tree(array) {
     }
     return find(value, currentNode[next]);
   }
-
   function levelOrder(func) {
     console.log("Running levelOrder");
     const queue = [];
     const tempQueue = [root];
-    let depth = 0;
-    let currDepth = 0;
     function enqueue() {
       while (true) {
         const next = tempQueue.shift();
@@ -180,7 +174,6 @@ export default function tree(array) {
       return queue;
     }
   }
-
   function inOrder(func) {
     console.log("Running inOrder");
     const queue = [];
@@ -253,6 +246,41 @@ export default function tree(array) {
       return queue;
     }
   }
+
+  function height(node = root) {
+    // Currently returns total amount of nodes in tree
+    console.log("Running height");
+    let height = 0;
+    const tempQueue = [node];
+    function getHeight() {
+      while (true) {
+        const next = tempQueue.shift();
+        if (!next) {
+          break;
+        }
+        if (next.left) {
+          tempQueue.push(next.left);
+        }
+        if (next.right) {
+          tempQueue.push(next.right);
+        }
+
+        height += 1;
+      }
+    }
+
+    getHeight();
+    return height;
+  }
+  function depth(node) {
+    return;
+  }
+  function isBalanced() {
+    return;
+  }
+  function rebalance() {
+    return;
+  }
   return {
     root,
     insert,
@@ -263,5 +291,9 @@ export default function tree(array) {
     inOrder,
     preOrder,
     postOrder,
+    height,
+    depth,
+    isBalanced,
+    rebalance,
   };
 }
