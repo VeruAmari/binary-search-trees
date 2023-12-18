@@ -14,5 +14,10 @@ prettyPrint(myTree.root);
 //prettyPrint(myTree.root);
 
 //myTree.find(6);
-
-console.log(myTree.levelOrder());
+/*
+myTree.inOrder(console.log);
+myTree.preOrder(console.log);
+myTree.postOrder(console.log);*/
+myTree.levelOrder((arg) => {
+  console.log(arg.data);
+});

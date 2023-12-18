@@ -149,23 +149,29 @@ export default function tree(array) {
   }
 
   function levelOrder(func) {
+    console.log("Running levelOrder");
     const queue = [];
-
-    function traverse(node) {
-      if (!node) {
-        return;
-      }
-      queue.push(node);
-
-      if (node.left) {
-        traverse(node.left);
-      }
-      if (node.right) {
-        traverse(node.right);
+    const tempQueue = [root];
+    let depth = 0;
+    let currDepth = 0;
+    function enqueue() {
+      while (true) {
+        const next = tempQueue.shift();
+        if (!next) {
+          break;
+        }
+        queue.push(next);
+        if (next.left) {
+          tempQueue.push(next.left);
+        }
+        if (next.right) {
+          tempQueue.push(next.right);
+        }
       }
     }
 
-    traverse(root);
+    enqueue();
+
     if (func) {
       queue.forEach((arg) => {
         func(arg);
@@ -174,5 +180,88 @@ export default function tree(array) {
       return queue;
     }
   }
-  return { root, insert, insertRecursive, del, find, levelOrder };
+
+  function inOrder(func) {
+    console.log("Running inOrder");
+    const queue = [];
+
+    function enqueue(node) {
+      // console.log(node);
+      if (!node) {
+        return;
+      }
+      enqueue(node.left);
+      queue.push(node);
+      enqueue(node.right);
+    }
+
+    enqueue(root);
+
+    if (func) {
+      queue.forEach((arg) => {
+        func(arg);
+      });
+    } else {
+      return queue;
+    }
+  }
+  function preOrder(func) {
+    console.log("Running preOrder");
+    const queue = [];
+
+    function enqueue(node) {
+      // console.log(node);
+      if (!node) {
+        return;
+      }
+      queue.push(node);
+      enqueue(node.left);
+      enqueue(node.right);
+    }
+
+    enqueue(root);
+
+    if (func) {
+      queue.forEach((arg) => {
+        func(arg);
+      });
+    } else {
+      return queue;
+    }
+  }
+  function postOrder(func) {
+    console.log("Running postOrder");
+    const queue = [];
+
+    function enqueue(node) {
+      // console.log(node);
+      if (!node) {
+        return;
+      }
+      enqueue(node.right);
+      queue.push(node);
+      enqueue(node.left);
+    }
+
+    enqueue(root);
+
+    if (func) {
+      queue.forEach((arg) => {
+        func(arg);
+      });
+    } else {
+      return queue;
+    }
+  }
+  return {
+    root,
+    insert,
+    insertRecursive,
+    del,
+    find,
+    levelOrder,
+    inOrder,
+    preOrder,
+    postOrder,
+  };
 }
