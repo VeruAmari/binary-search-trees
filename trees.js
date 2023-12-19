@@ -29,7 +29,8 @@ export default function tree(array) {
 
     return newNode;
   };
-  let root = buildTree(dupeless);
+  let root;
+  root = buildTree(dupeless);
 
   function insert(value) {
     console.log("Inserting value", value, ".");
@@ -285,11 +286,26 @@ export default function tree(array) {
     }
     console.log("Not found");
   }
-  function isBalanced() {
-    return;
+  function isBalanced(current = root) {
+    if (!current) {
+      return true;
+    }
+    let left = height(current.left);
+    let right = height(current.right);
+
+    let diff = left < right ? right - left : left - right;
+    if (diff > 1) {
+      return false;
+    }
+    return isBalanced(current.left) || isBalanced(current.right);
   }
   function rebalance() {
-    return;
+    let arr = [];
+    inOrder((element) => {
+      arr.push(element.data);
+    });
+    this.root = buildTree(arr);
+    return root;
   }
   return {
     root,

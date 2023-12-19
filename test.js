@@ -6,6 +6,7 @@ const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 //console.log(tree(data));
 const myTree = tree(data);
 
+myTree.insertRecursive(323);
 myTree.insertRecursive(10);
 
 myTree.insertRecursive(11);
@@ -36,10 +37,17 @@ myTree.inOrder(console.log);
 myTree.preOrder(console.log);
 myTree.postOrder(console.log);
 myTree.levelOrder();
-*/
 myTree.inOrder((args) => {
   //console.log(args.data);
 });
+*/
 
 console.log("Height:", myTree.height());
 console.log("Depth:", myTree.depth(myTree.find(1)));
+
+console.log(myTree.isBalanced());
+prettyPrint(myTree.rebalance());
+myTree.inOrder((element) => {
+  console.log(element.data);
+});
+prettyPrint(myTree.root);
