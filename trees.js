@@ -59,6 +59,10 @@ export default function tree(array) {
   }
   function insertRecursive(value, currentNode = root) {
     // Check for existance of value in tree
+    if (!root) {
+      root = node(value);
+      return;
+    }
     if (value === currentNode.data) {
       console.log("Value already in tree.");
       return;
@@ -128,6 +132,9 @@ export default function tree(array) {
   }
 
   function find(value, currentNode = root) {
+    if (!root) {
+      return null;
+    }
     if (value === currentNode.data) {
       console.log("Value", value, "found at root", currentNode);
       return currentNode;
@@ -249,31 +256,34 @@ export default function tree(array) {
 
   function height(node = root) {
     // Currently returns total amount of nodes in tree
-    console.log("Running height");
-    let height = 0;
-    const tempQueue = [node];
-    function getHeight() {
-      while (true) {
-        const next = tempQueue.shift();
-        if (!next) {
-          break;
-        }
-        if (next.left) {
-          tempQueue.push(next.left);
-        }
-        if (next.right) {
-          tempQueue.push(next.right);
-        }
-
-        height += 1;
-      }
+    if (!node) {
+      return -1;
     }
-
-    getHeight();
-    return height;
+    return Math.max(height(node.left), height(node.right)) + 1;
   }
   function depth(node) {
-    return;
+    let depth = -1;
+    if (!root) {
+      return depth;
+    }
+    if (node === root) {
+      return depth;
+    }
+
+    let currentNode = root;
+    let next = node.data < currentNode.data ? "left" : "right";
+
+    while (currentNode[next]) {
+      depth += 1;
+      // console.log("Current Node", currentNode, depth);
+      if (currentNode[next] === node) {
+        depth += 1;
+        return depth;
+      }
+      currentNode = currentNode[next];
+      next = node.data < currentNode.data ? "left" : "right";
+    }
+    console.log("Not found");
   }
   function isBalanced() {
     return;
